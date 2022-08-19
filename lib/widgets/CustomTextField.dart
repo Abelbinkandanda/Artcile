@@ -5,12 +5,12 @@ class CustomTextField {
   final String placeholder;
   final bool ispass;
   String _value = "";
-  String err = "";
+  String err;
   CustomTextField({
     this.title = "",
     this.placeholder = "",
     this.ispass = false,
-    this.err = "",
+    this.err = "Pleace specify this field",
   });
   TextFormField textFormField() {
     return TextFormField(
@@ -28,5 +28,9 @@ class CustomTextField {
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.redAccent))),
     );
+  }
+
+  String get value {
+    return _value;
   }
 }
