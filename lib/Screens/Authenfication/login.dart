@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:article/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   final VoidCallback visible;
@@ -9,6 +12,17 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  void login(String email, String pass) async {
+    final response = await http.get(
+        Uri.parse("https://abkcorp.000webhostapp.com/article/connection.php"));
+    // final response = await http
+    //     .get("https://abkcorp.000webhostapp.com/article/connection.php");
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    }
+  }
+
   CustomTextField emailText = new CustomTextField(
     title: "Email",
     placeholder: "Enter Email",
@@ -54,10 +68,11 @@ class _LoginState extends State<Login> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        if (_key.currentState!.validate()) {
-                          print(emailText.value);
-                          print("Ok");
-                        }
+                        // if (_key.currentState!.validate()) {
+                        //   print(emailText.value);
+                        //   print("Ok");
+                        // }
+                        login("", "");
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
