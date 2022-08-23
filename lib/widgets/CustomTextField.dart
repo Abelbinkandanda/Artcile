@@ -12,8 +12,10 @@ class CustomTextField {
     this.ispass = false,
     this.err = "Pleace specify this field",
   });
+  TextEditingController controller = new TextEditingController();
   TextFormField textFormField() {
     return TextFormField(
+      controller: controller,
       onChanged: (e) {
         _value = e;
       },
