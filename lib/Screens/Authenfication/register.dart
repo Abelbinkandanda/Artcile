@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:article/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   final VoidCallback visible;
@@ -13,6 +16,25 @@ class _RegisterState extends State<Register> {
     title: "Email",
     placeholder: "Enter Email",
   );
+  CustomTextField nameText = new CustomTextField(
+    title: "Name",
+    placeholder: "Enter Name",
+  );
+
+  void register(String name, String email, String pass) async {
+    final response = await http.post(
+        Uri.parse("https://abkcorp.000webhostapp.com/article/register.php"),
+        body: {
+          "name": name,
+          "email": email,
+          "pass": pass,
+        });
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    }
+  }
+
   CustomTextField passText = new CustomTextField(
     title: "Password",
     placeholder: "********",
@@ -26,6 +48,7 @@ class _RegisterState extends State<Register> {
   final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    nameText.err = "Enter name";
     emailText.err = "Enter email";
     passText.err = "Enter password";
     return Scaffold(
@@ -49,6 +72,10 @@ class _RegisterState extends State<Register> {
                     SizedBox(
                       height: 30,
                     ),
+                    nameText.textFormField(),
+                    SizedBox(
+                      height: 10,
+                    ),
                     emailText.textFormField(),
                     SizedBox(
                       height: 10,
@@ -67,8 +94,15 @@ class _RegisterState extends State<Register> {
                     RaisedButton(
                       onPressed: () {
                         if (_key.currentState!.validate()) {
-                          print(emailText.value);
-                          print("Ok");
+                          //   print(emailText.value);
+                          //   print("Ok");
+                        }
+
+                        if (passText.value == confirmpassText.value) {
+                          register(
+                              nameText.value, emailText.value, passText.value);
+                        } else {
+                          print("les nots de passes sont differents");
                         }
                       },
                       shape: RoundedRectangleBorder(
