@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
-  final VoidCallback visible;
-  Login(this.visible);
+  final VoidCallback visible, login;
+  Login(this.visible, this.login);
   @override
   State<Login> createState() => _LoginState();
 }
@@ -37,6 +37,7 @@ class _LoginState extends State<Login> {
         setState(() {
           error = result[0];
           _loading = false;
+          widget.login.call();
         });
       } else {
         setState(() {
